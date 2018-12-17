@@ -91,7 +91,22 @@ class Student
     all
   end
 
+  def self.first_student_in_grade_10
+    # find the student in the database given a name
+    # return a new instance of the Student class
+    all = []
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = ?
+      LIMIT ?
+    SQL
 
+    DB[:conn].execute(sql, 10,1).map do |row|
+      all << self.new_from_db(row)
+    end
+    all
+  end
 
   def save
     sql = <<-SQL
