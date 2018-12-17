@@ -40,6 +40,28 @@ class Student
 
   end
 
+
+  def self.all_students_in_grade_9
+    # find the student in the database given a name
+    # return a new instance of the Student class
+    all = []
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = ?
+    SQL
+
+    DB[:conn].execute(sql, 9).map do |row|
+      all << self.new_from_db(row)
+    end
+    all
+  end
+
+
+
+
+
+
   def save
     sql = <<-SQL
       INSERT INTO students (name, grade)
